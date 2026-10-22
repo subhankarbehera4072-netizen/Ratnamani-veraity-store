@@ -1,0 +1,6 @@
+{
+  "name": "Ratnamani Variety Store",
+  "description": "Smart Grocery Shop Manager for Ratnamani Variety Store with billing, weight calculator, inventory, udhar khata, reports, and cloud backup.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

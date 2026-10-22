@@ -1,0 +1,92 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Inventory product item owned by the store user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique product ID" },
+        "userId": { "type": "string", "description": "Owner Google UID" },
+        "name": { "type": "string", "description": "Product name" },
+        "category": { "type": "string", "description": "Product category" },
+        "price": { "type": "number", "description": "Selling price" },
+        "costPrice": { "type": "number", "description": "Cost purchase price" },
+        "stockQuantity": { "type": "number", "description": "Current quantity in stock" },
+        "unit": { "type": "string", "description": "Measurement unit e.g. kg, pcs, pkt" },
+        "barcode": { "type": "string", "description": "Optional barcode" },
+        "minStockAlert": { "type": "number", "description": "Low stock alert threshold" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp via serverTimestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last updated timestamp via serverTimestamp" }
+      },
+      "required": ["userId", "name", "price", "stockQuantity"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer record for Udhar Khata ledger",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique customer ID" },
+        "userId": { "type": "string", "description": "Owner Google UID" },
+        "name": { "type": "string", "description": "Customer name" },
+        "phone": { "type": "string", "description": "Customer phone number" },
+        "address": { "type": "string", "description": "Customer address" },
+        "totalUdhar": { "type": "number", "description": "Current outstanding balance" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp via serverTimestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last updated timestamp via serverTimestamp" }
+      },
+      "required": ["userId", "name", "totalUdhar"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Udhar or Jama transaction in customer ledger",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique transaction ID" },
+        "userId": { "type": "string", "description": "Owner Google UID" },
+        "customerId": { "type": "string", "description": "Associated customer ID" },
+        "amount": { "type": "number", "description": "Transaction amount" },
+        "type": { "type": "string", "enum": ["UDHAR", "JAMA"], "description": "Transaction type" },
+        "note": { "type": "string", "description": "Optional remarks/note" },
+        "itemsSummary": { "type": "string", "description": "Optional summary of items taken" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp via serverTimestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last updated timestamp via serverTimestamp" }
+      },
+      "required": ["userId", "customerId", "amount", "type"]
+    },
+    "ShopSettings": {
+      "title": "ShopSettings",
+      "description": "Store profile and configuration",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Google UID" },
+        "shopName": { "type": "string", "description": "Shop name" },
+        "ownerName": { "type": "string", "description": "Shop owner name" },
+        "phone": { "type": "string", "description": "Shop contact phone" },
+        "address": { "type": "string", "description": "Shop physical address" },
+        "upiId": { "type": "string", "description": "UPI payment ID" },
+        "currencySymbol": { "type": "string", "description": "Currency symbol e.g. ₹" },
+        "lowStockThreshold": { "type": "number", "description": "Global low stock threshold" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last updated timestamp via serverTimestamp" }
+      },
+      "required": ["userId", "shopName"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/shop_settings/current": {
+      "schema": "ShopSettings",
+      "description": "Store settings for user"
+    },
+    "/users/{userId}/products/{productId}": {
+      "schema": "Product",
+      "description": "Store inventory items for user"
+    },
+    "/users/{userId}/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "Customer ledger records for user"
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Udhar and Jama ledger transactions for user"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="1.0"
+        android:scaleY="1.0">
+        <!-- Grocery Store Basket Outline & Base -->
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M30,44 L78,44 C81,44 83.5,46.5 83,49.5 L77,77 C76.5,79.5 74.5,81 72,81 L36,81 C33.5,81 31.5,79.5 31,77 L25,49.5 C24.5,46.5 27,44 30,44 Z" />
+        
+        <!-- Basket Handle -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="4"
+            android:strokeLineCap="round"
+            android:pathData="M39,44 C39,32 69,32 69,44" />
+
+        <!-- Basket Grid Lines Inner (Groove) -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#1B5E20"
+            android:strokeWidth="2.5"
+            android:pathData="M38,48 L44,77 M54,48 L54,77 M70,48 L64,77 M29,62 L79,62" />
+
+        <!-- Wheat / Grain Ear peeking above basket -->
+        <path
+            android:fillColor="#FFD54F"
+            android:pathData="M54,23 C52,26 52,29 54,32 C56,29 56,26 54,23 Z" />
+        <path
+            android:fillColor="#FFD54F"
+            android:pathData="M48,27 C47,30 49,32 52,34 C53,31 51,29 48,27 Z" />
+        <path
+            android:fillColor="#FFD54F"
+            android:pathData="M60,27 C63,29 61,31 62,34 C59,32 61,30 60,27 Z" />
+        <path
+            android:fillColor="#FFD54F"
+            android:pathData="M47,34 C46,37 49,39 52,40 C53,38 50,36 47,34 Z" />
+        <path
+            android:fillColor="#FFD54F"
+            android:pathData="M61,34 C64,36 61,38 62,40 C59,39 62,37 61,34 Z" />
+
+        <!-- Rupee Symbol Badge on Bottom Right -->
+        <path
+            android:fillColor="#FF8F00"
+            android:pathData="M78,66 C83.5,66 88,70.5 88,76 C88,81.5 83.5,86 78,86 C72.5,86 68,81.5 68,76 C68,70.5 72.5,66 78,66 Z" />
+        <!-- Rupee Sign inside Badge -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="1.6"
+            android:strokeLineCap="round"
+            android:pathData="M74.5,71.5 L81.5,71.5 M74.5,74 L81.5,74 M74.5,71.5 L77.5,71.5 C79,71.5 80,72.2 80,73.5 C80,75 79,76 77.5,76 L74.5,76 L81,81" />
+    </group>
+</vector>

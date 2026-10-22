@@ -1,0 +1,92 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidTimestamp(val) {
+      return val is timestamp && val <= request.time;
+    }
+
+    function isValidProduct(data, userId) {
+      return data.userId == userId &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 200 &&
+        data.price is number && data.price >= 0 &&
+        data.stockQuantity is number &&
+        (!('category' in data) || data.category is string) &&
+        (!('costPrice' in data) || data.costPrice is number) &&
+        (!('unit' in data) || data.unit is string) &&
+        (!('barcode' in data) || data.barcode is string) &&
+        (!('minStockAlert' in data) || data.minStockAlert is number) &&
+        (!('createdAt' in data) || isValidTimestamp(data.createdAt)) &&
+        (!('updatedAt' in data) || isValidTimestamp(data.updatedAt));
+    }
+
+    function isValidCustomer(data, userId) {
+      return data.userId == userId &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 200 &&
+        data.totalUdhar is number &&
+        (!('phone' in data) || data.phone is string) &&
+        (!('address' in data) || data.address is string) &&
+        (!('createdAt' in data) || isValidTimestamp(data.createdAt)) &&
+        (!('updatedAt' in data) || isValidTimestamp(data.updatedAt));
+    }
+
+    function isValidTransaction(data, userId) {
+      return data.userId == userId &&
+        data.customerId is string && data.customerId.size() > 0 &&
+        data.amount is number && data.amount >= 0 &&
+        data.type in ['UDHAR', 'JAMA'] &&
+        (!('note' in data) || data.note is string) &&
+        (!('itemsSummary' in data) || data.itemsSummary is string) &&
+        (!('createdAt' in data) || isValidTimestamp(data.createdAt)) &&
+        (!('updatedAt' in data) || isValidTimestamp(data.updatedAt));
+    }
+
+    function isValidShopSettings(data, userId) {
+      return data.userId == userId &&
+        data.shopName is string && data.shopName.size() > 0 &&
+        (!('ownerName' in data) || data.ownerName is string) &&
+        (!('phone' in data) || data.phone is string) &&
+        (!('address' in data) || data.address is string) &&
+        (!('upiId' in data) || data.upiId is string) &&
+        (!('currencySymbol' in data) || data.currencySymbol is string) &&
+        (!('lowStockThreshold' in data) || data.lowStockThreshold is number) &&
+        (!('updatedAt' in data) || isValidTimestamp(data.updatedAt));
+    }
+
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+
+      match /shop_settings/{settingId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidShopSettings(request.resource.data, userId);
+        allow delete: if isOwner(userId);
+      }
+
+      match /products/{productId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidProduct(request.resource.data, userId);
+        allow delete: if isOwner(userId);
+      }
+
+      match /customers/{customerId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidCustomer(request.resource.data, userId);
+        allow delete: if isOwner(userId);
+      }
+
+      match /transactions/{transactionId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidTransaction(request.resource.data, userId);
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}
